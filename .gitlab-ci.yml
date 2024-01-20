@@ -1,22 +1,22 @@
-image: docker:latest
+# image: docker:latest
 
-stages:
-  - build
+# stages:
+#   - build
 
-services:
-  - docker:dind
+# services:
+#   - docker:dind
 
-variables:
-  DOCKER_IMAGE_NAME: "$DOCKER_HUB_USERNAME/$DOCKER_IMAGE"
-  DOCKER_IMAGE_TAG: "latest"
+# variables:
+#   DOCKER_IMAGE_NAME: "$DOCKER_HUB_USERNAME/$DOCKER_IMAGE"
+#   DOCKER_IMAGE_TAG: "latest"
 
-build:
-  stage: build
-  script:
-    - docker build -t $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG .
-    - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
-    - docker push $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG
-    - echo "Application successfully deployed."
+# build:
+#   stage: build
+#   script:
+#     - docker build -t $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG .
+#     - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
+#     - docker push $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG
+#     - echo "Application successfully deployed."
 
-  # only:
-  #   - main  # Run this job only for changes in the main branch
+#   only:
+#     - main  # Run this job only for changes in the main branch
