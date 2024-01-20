@@ -20,3 +20,24 @@
 
 #   only:
 #     - main  # Run this job only for changes in the main branch
+
+
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  image: ubuntu:latest
+
+
+  script:
+    - apt-get update -qy
+    - apt-get install -y sshpass
+    - echo "$AZURE_VM_SSH_KEY" | base64 -d > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh -o StrictHostKeyChecking=no $AZURE_VM_USER@$AZURE_VM_IP "sudo mkdir ajmerSingh" 
+    - echo "Application deployed to Azure VM."
+
+  only:
+    - main  # Run this job only for changes in the main branch
+
