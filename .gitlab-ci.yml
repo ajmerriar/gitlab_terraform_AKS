@@ -64,6 +64,7 @@ deploy:
     - chmod 700 ~/.ssh
 
   script:
+    - ssh-add -L 
     - ssh -o StrictHostKeyChecking=no $AZURE_VM_USERNAME@$AZURE_VM_IP 'cd ~; touch test.txt'
 
   only:
