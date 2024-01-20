@@ -22,22 +22,48 @@
 #     - main  # Run this job only for changes in the main branch
 
 
+# stages:
+#   - deploy
+
+# deploy:
+#   stage: deploy
+#   image: ubuntu:latest
+
+
+#   script:
+#     - apt-get update -qy
+#     - apt-get install -y sshpass
+#     - mkdir -p ~/.ssh
+#     - echo "$AZURE_SSH_KEY" > ~/.ssh/id_rsa
+#     - chmod 600 ~/.ssh/id_rsa
+#     - ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $AZURE_VM_USERNAME@$AZURE_VM_IP "sudo sh -c 'mkdir ajmerSingh'"
+#     - echo "Application deployed to Azure VM."
+
+#   only:
+#     - main  # Run this job only for changes in the main branch
+
 stages:
   - deploy
 
 deploy:
   stage: deploy
   image: ubuntu:latest
+  variables:
+    AZURE_VM_IP: "$AZURE_VM_IP"
+    AZURE_VM_USERNAME: "$AZURE_VM_USERNAME"
+    AZURE_SSH_KEY: "$AZURE_SSH_KEY"
 
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - echo "$AZURE_SSH_KEY" | base64 -d > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
 
   script:
-    - apt-get update -qy
-    - apt-get install -y sshpass
-    - mkdir -p ~/.ssh
-    - echo "$AZURE_SSH_KEY" > ~/.ssh/id_rsa
-    - chmod 600 ~/.ssh/id_rsa
-    - ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $AZURE_VM_USERNAME@$AZURE_VM_IP "sudo sh -c 'mkdir ajmerSingh'"
-    - echo "Application deployed to Azure VM."
+    - ssh-add ~/.ssh/id_rsa
+    - ssh -o StrictHostKeyChecking=no $AZURE_VM_USERNAME@$AZURE_VM_IP 'sudo mkdir /var/www/html/ajmerSingh'
 
   only:
     - main  # Run this job only for changes in the main branch
