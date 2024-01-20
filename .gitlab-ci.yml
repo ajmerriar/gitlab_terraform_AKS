@@ -18,5 +18,5 @@ build:
     - docker push $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG
     - echo "Application successfully deployed."
 
-  only:
-    - main  # Run this job only for changes in the main branch
+  # only:
+  #   - main  # Run this job only for changes in the main branch
