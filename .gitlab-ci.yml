@@ -58,10 +58,11 @@ deploy:
   before_script:
     - apk add openssh-client
     - eval $(ssh-agent -s)
-    - echo "$AZURE_VM_SSH_KEY" | tr -d '\r' > ~/.ssh/id_rsa
-    - chmod 600 ~/.ssh/id_rsa
     - mkdir -p ~/.ssh
+    - echo "$AZURE_VM_SSH_KEY" | tr -d '\r' > ~/.ssh/id_rsa
     - chmod 700 ~/.ssh
+    - chmod 600 ~/.ssh/id_rsa
+
 
   script:
     - ssh-add -L 
