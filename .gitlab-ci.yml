@@ -5,8 +5,6 @@ variables:
   DOCKER_IMAGE_NAME: "$DOCKER_HUB_USERNAME/weather-application"
   DOCKER_IMAGE_TAG: "latest"
 
-before_script:
-  - npm install  # If your project has dependencies, install them here
 
 build:
   stage: build
