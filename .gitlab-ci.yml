@@ -47,31 +47,22 @@ stages:
 
 deploy:
   stage: deploy
-  image: ubuntu:latest
+  image: alpine
   variables:
     AZURE_VM_IP: "$AZURE_VM_IP"
     AZURE_VM_USERNAME: "$AZURE_VM_USERNAME"
-    AZURE_SSH_KEY: "$AZURE_SSH_KEY"
+    AZURE_VM_SSH_KEY: "$AZURE_VM_SSH_KEY"
 
-  # before_script:
-  #   - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-  #   - mkdir -p ~/.ssh
-  #   - eval $(ssh-agent -s)
-  #   - echo "$AZURE_SSH_KEY" > ~/.ssh/id_rsa
-  #   - chmod 600 ~/.ssh/id_rsa
-  #   - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
 
+
+  before_script:
+    - apk add openssh-client
+    - eval $(ssh-agent -s)
+    - echo "$AZURE_VM_SSH_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
 
   script:
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-    - mkdir -p ~/.ssh
-    - eval $(ssh-agent -s)
-    - echo "$AZURE_SSH_KEY" | tr -d '\r' | ssh-add - > /dev/null
-    - ssh -o StrictHostKeyChecking=no $AZURE_VM_USERNAME@$AZURE_VM_IP 'sudo mkdir /var/www/html/ajmerSingh'
-
-
-
-    - ssh-add ~/.ssh/id_rsa
     - ssh -o StrictHostKeyChecking=no $AZURE_VM_USERNAME@$AZURE_VM_IP 'sudo mkdir /var/www/html/ajmerSingh'
 
   only:
