@@ -60,6 +60,7 @@ deploy:
     - eval $(ssh-agent -s)
     - echo "$AZURE_VM_SSH_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
+    - chmod 600 ~/.ssh
     - chmod 700 ~/.ssh
 
   script:
