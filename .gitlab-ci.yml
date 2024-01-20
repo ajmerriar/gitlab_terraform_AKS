@@ -64,7 +64,7 @@ deploy:
     - chmod 700 ~/.ssh
 
   script:
-    - ssh -o StrictHostKeyChecking=no $AZURE_VM_USERNAME@$AZURE_VM_IP 'sudo mkdir /var/www/html/ajmerSingh'
+    - ssh -o StrictHostKeyChecking=no $AZURE_VM_USERNAME@$AZURE_VM_IP 'cd ~; touch test.txt'
 
   only:
     - main  # Run this job only for changes in the main branch
