@@ -38,7 +38,7 @@ deploy:
 
   script:
     - sshpass -p "$AZURE_VM_PASSWORD" ssh -o StrictHostKeyChecking=no $AZURE_VM_USERNAME@$AZURE_VM_IP 'mkdir app; cd app'
-    - sshpass -p "$AZURE_VM_PASSWORD" ssh -o StrictHostKeyChecking=no $AZURE_VM_USERNAME@$AZURE_VM_IP 'sudo apk add docker.io'
+    - sshpass -p "$AZURE_VM_PASSWORD" ssh -o StrictHostKeyChecking=no $AZURE_VM_USERNAME@$AZURE_VM_IP 'sudo apt update -y && sudo apk install docker.io'
     - sshpass -p "$AZURE_VM_PASSWORD" ssh -o StrictHostKeyChecking=no $AZURE_VM_USERNAME@$AZURE_VM_IP 'sudo docker pull $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG'
     - sshpass -p "$AZURE_VM_PASSWORD" ssh -o StrictHostKeyChecking=no $AZURE_VM_USERNAME@$AZURE_VM_IP 'sudo docker run -d -p 3000:3000 $DOCKER_IMAGE_NAME'
 
