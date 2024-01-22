@@ -1,7 +1,7 @@
 stages:
   # - build
   # - deploy
-  - terraform_deploy:
+  - terraform_deploy
 
 
 # services:
@@ -42,6 +42,8 @@ terraform_deploy:
     - apt-get install -y azure-cli
     - az login --service-principal --username "$AZURE_CLIENT_ID" --password "$AZURE_CLIENT_SECRET" --tenant "$AZURE_TENANT_ID"
     - terraform init
-    - terraform apply -auto-approve
+    - terraform plan
+    - terraform validate 
+    #- terraform apply -auto-approve
   only:
     - main
