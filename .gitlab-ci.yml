@@ -43,7 +43,7 @@ terraform_deploy:
     - pip3 install --upgrade azure-cli
     - az login --service-principal --username "$AZURE_CLIENT_ID" --password "$AZURE_CLIENT_SECRET" --tenant "$AZURE_TENANT_ID"
     - apt-get install -y unzip  # Install unzip if not already present
-    - curl -o terraform.zip https://releases.hashicorp.com/terraform/1.0.9/terraform_1.0.9_linux_amd64.zip
+    - wget terraform.zip https://releases.hashicorp.com/terraform/1.0.9/terraform_1.0.9_linux_amd64.zip
     - unzip terraform.zip
     - mv terraform /usr/local/bin/
     - terraform --version
