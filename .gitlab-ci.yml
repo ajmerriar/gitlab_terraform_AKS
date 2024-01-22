@@ -14,9 +14,20 @@ build:
   image: docker:latest
   script:
     - docker build -t $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG .
-    - docker login $ACR_USERNAME.azurecr.io -u $ACR_USERNAME -p $ACR_PASSWORD
+    - docker login $REGISTRY_NAME.azurecr.io -u $ACR_USERNAME -p $ACR_PASSWORD
     - docker push $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG
     - echo "Application successfully deployed."
     
   only:
     - main # Run this job only for changes in the main branch
+
+deploy:
+  stage: deploy
+  image: ubuntu:latest
+  script:
+    - apt-get update -y
+    - apt-get install -y ansible
+    - ansible-playbook deploy_playbook.yml
+
+  only:
+    - main
