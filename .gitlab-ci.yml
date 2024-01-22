@@ -2,98 +2,22 @@ stages:
   - build
   - deploy
 
-services:
-  - docker:dind
-
 variables:
   DOCKER_IMAGE_NAME: "$DOCKER_HUB_USERNAME/$DOCKER_IMAGE"
   DOCKER_IMAGE_TAG: "latest"
 
 build:
   stage: build
-  image: docker:latest
+  image: alpine
+
+  before_script:
+    - apk add --no-cache docker
+
   script:
     - docker build -t $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG .
     - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
     - docker push $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG
-    - echo "Application successfully deployed."
-    
-  only:
-    - main # Run this job only for changes in the main branch
-
-
-
-deploy:
-  stage: deploy
-  image: alpine
-  variables:
-    AZURE_VM_IP: "$AZURE_VM_IP"
-    AZURE_VM_USERNAME: "$AZURE_VM_USERNAME"
-    AZURE_VM_PASSWORD: "$AZURE_VM_PASSWORD"
-
-  before_script:
-    - apk add openssh-client sshpass
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-
-  script:
-    - sshpass -p "$AZURE_VM_PASSWORD" ssh -o StrictHostKeyChecking=no $AZURE_VM_USERNAME@$AZURE_VM_IP 'mkdir app; cd app'
-    - sshpass -p "$AZURE_VM_PASSWORD" ssh -o StrictHostKeyChecking=no $AZURE_VM_USERNAME@$AZURE_VM_IP 'sudo apt update -y && sudo apt install docker.io -y'
-    - sshpass -p "$AZURE_VM_PASSWORD" ssh -o StrictHostKeyChecking=no $AZURE_VM_USERNAME@$AZURE_VM_IP 'sudo docker pull ajmer1705/weather_application:latest; sudo docker images'
-    - sshpass -p "$AZURE_VM_PASSWORD" ssh -o StrictHostKeyChecking=no $AZURE_VM_USERNAME@$AZURE_VM_IP 'sudo docker run -d -p 3000:3000 ajmer1705/weather_application'
-
+    - echo "Application successfully built and pushed."
 
   only:
-    - main  # Run this job only for changes in the main branch
-
-
-# stages:
-#   - deploy
-
-# deploy:
-#   stage: deploy
-#   image: ubuntu:latest
-
-
-#   script:
-#     - apt-get update -qy
-#     - apt-get install -y sshpass
-#     - mkdir -p ~/.ssh
-#     - echo "$AZURE_SSH_KEY" > ~/.ssh/id_rsa
-#     - chmod 600 ~/.ssh/id_rsa
-#     - ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $AZURE_VM_USERNAME@$AZURE_VM_IP "sudo sh -c 'mkdir ajmerSingh'"
-#     - echo "Application deployed to Azure VM."
-
-#   only:
-#     - main  # Run this job only for changes in the main branch
-
-# stages:
-#   - deploy
-
-# deploy:
-#   stage: deploy
-#   image: alpine
-#   variables:
-#     AZURE_VM_IP: "$AZURE_VM_IP"
-#     AZURE_VM_USERNAME: "$AZURE_VM_USERNAME"
-#     AZURE_VM_SSH_KEY: "$AZURE_VM_SSH_KEY"
-
-
-
-#   before_script:
-#     - apk add openssh-client
-#     - eval $(ssh-agent -s)
-#     - mkdir -p ~/.ssh
-#     - chmod 700 ~/.ssh
-#     - echo "$AZURE_VM_SSH_KEY" | tr -d '\r' > ~/.ssh/id_rsa
-#     - chmod 600 ~/.ssh/id_rsa
-#     - ssh-add ~/.ssh/id_rsa
-#     - ssh-add -L  
-
-
-#   script:
-#     - ssh -o StrictHostKeyChecking=no $AZURE_VM_USERNAME@$AZURE_VM_IP 'cd ~; touch test.txt'
-
-#   only:
-#     - main  # Run this job only for changes in the main branch
-
+    - main
