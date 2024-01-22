@@ -36,22 +36,13 @@ stages:
 
 terraform_deploy:
   stage: terraform_deploy
-  image: ubuntu:latest
+  image: hashicorp/terraform:latest
   script:
-    - apt-get update -y
-    - apt-get install -y python3-pip
-    - pip3 install --upgrade azure-cli
     - az login --service-principal --username "$AZURE_CLIENT_ID" --password "$AZURE_CLIENT_SECRET" --tenant "$AZURE_TENANT_ID"
-
-    - apt-get install -y gnupg
-    - curl -fsSL https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-    - echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list > /dev/null
-    - apt-get update -y
-    - apt-get install -y terraform
-    - terraform --version
     - terraform init
     - terraform plan
-    - terraform validate 
+    - terraform validate
     #- terraform apply -auto-approve
   only:
     - main
+
