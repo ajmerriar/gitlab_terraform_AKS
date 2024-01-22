@@ -35,25 +35,18 @@
 #     - main
 
 stages:
-  - terraform_prep
   - validate
-  - plan
   - terraform_deploy
 
-azure_login:
-  stage: terraform_prep
-  image:
-    name: microsoft/azure-cli:latest
-    entrypoint:
-      - '/usr/bin/env'
-      - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
-  script:
-    - az login --service-principal --username "$AZURE_CLIENT_ID" --password "$AZURE_CLIENT_SECRET" --tenant "$AZURE_TENANT_ID"
 
 terraform_setup:
-  stage: terraform_prep
-  image: hashicorp/terraform:light
+  stage: validate
+  image:
+    name: hashicorp/terraform:light
+    entrypoint: [""]
+
   script:
+    - az login --service-principal --username "$AZURE_CLIENT_ID" --password "$AZURE_CLIENT_SECRET" --tenant "$AZURE_TENANT_ID"
     - rm -rf .terraform
     - terraform --version
     - terraform init
@@ -63,13 +56,12 @@ validate:
   script:
     - terraform validate
 
-plan:
-  stage: plan
+terraform_deploy:
+  stage: terraform_deploy
   script:
-    - terraform plan
+    - terraform plan 
   dependencies:
     - validate
-
   only:
     - main
 
