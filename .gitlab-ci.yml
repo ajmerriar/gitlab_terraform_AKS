@@ -31,3 +31,15 @@
 
 #   only:
 #     - main
+
+terraform_deploy:
+  stage: terraform_deploy
+  image: hashicorp/terraform:latest
+  script:
+    - apt-get update -y
+    - apt-get install -y azure-cli
+    - az login --service-principal --username "$AZURE_CLIENT_ID" --password "$AZURE_CLIENT_SECRET" --tenant "$AZURE_TENANT_ID"
+    - terraform init
+    - terraform apply -auto-approve
+  only:
+    - main
