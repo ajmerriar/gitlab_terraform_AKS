@@ -1,6 +1,6 @@
 ---
 - name: Deploy to Azure Container Instances
-  hosts: localhost
+  hosts: all
   become: yes
 
   tasks:
