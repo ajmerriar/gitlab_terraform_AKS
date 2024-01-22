@@ -13,7 +13,7 @@ build:
   before_script:
     - apt-get update -y
     - apt-get install -y docker.io
-    - systemctl start docker
+    - service docker start 
 
   script:
     - docker version
