@@ -36,8 +36,6 @@
 
 stages:
   - validate
-  - terraform_deploy
-
 
 terraform_setup:
   stage: validate
@@ -54,11 +52,8 @@ terraform_setup:
 
   script:
     - terraform validate
-
-terraform_deploy:
-  stage: terraform_deploy
-  script:
     - terraform plan 
+
 
   only:
     - main
