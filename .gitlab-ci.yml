@@ -57,8 +57,7 @@ terraform_deploy:
   stage: terraform_deploy
   script:
     - terraform plan 
-  dependencies:
-    - validate
+
   only:
     - main
 
