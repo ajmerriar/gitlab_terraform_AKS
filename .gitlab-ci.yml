@@ -42,7 +42,7 @@ stages:
 terraform_setup:
   stage: validate
   image:
-    name: hashicorp/terraform:light
+    name: hashicorp/terraform:full
     entrypoint: [""]
 
   before_script:
