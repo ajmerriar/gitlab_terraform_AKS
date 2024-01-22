@@ -24,7 +24,7 @@ resource "azurerm_container_group" "containergroup" {
     cpu   = var.cpu_core_number
     memory = var.memory_size
 
-    port {
+    ports {
       protocol = "TCP"
       port     = var.port_number
     }
