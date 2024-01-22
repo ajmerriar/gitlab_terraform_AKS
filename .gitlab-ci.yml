@@ -6,7 +6,7 @@ services:
   - docker:dind
 
 variables:
-  DOCKER_IMAGE_NAME: "$DOCKER_HUB_USERNAME/$DOCKER_IMAGE"
+  DOCKER_IMAGE_NAME: "$ACR_USERNAME.azurecr.io/$DOCKER_IMAGE"
   DOCKER_IMAGE_TAG: "latest"
 
 build:
