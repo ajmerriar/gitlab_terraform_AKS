@@ -5,7 +5,7 @@
 
   tasks:
     - name: Login to Azure Container Registry
-      shell: az acr login --name $REGISTRY_NAME --username "{{ ACR_USERNAME }}" --password "{{ ACR_PASSWORD }}"
+      shell: az acr login --name $REGISTRY_NAME --username "{{ $ACR_USERNAME }}" --password "{{ $ACR_PASSWORD }}"
       environment:
         ACR_USERNAME: "{{ ACR_USERNAME }}"
         ACR_PASSWORD: "{{ ACR_PASSWORD }}"
