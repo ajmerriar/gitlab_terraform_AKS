@@ -1,6 +1,8 @@
-# stages:
-#   - build
-#   - deploy
+stages:
+  # - build
+  # - deploy
+  - terraform_deploy:
+
 
 # services:
 #   - docker:dind
