@@ -8,7 +8,7 @@
       shell: az acr login --name $REGISTRY_NAME --username "{{ ACR_USERNAME }}" --password "{{ ACR_PASSWORD }}"
       environment:
         ACR_USERNAME: "{{ ACR_USERNAME }}"
-        ACR_PASSWORD: "{{ACR_PASSWORD }}"
+        ACR_PASSWORD: "{{ ACR_PASSWORD }}"
 
     - name: Pull Docker image from Azure Container Registry
       shell: docker pull $ACR_USERNAME.azurecr.io/$DOCKER_IMAGE:$DOCKER_IMAGE_TAG
