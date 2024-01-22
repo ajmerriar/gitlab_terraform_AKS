@@ -53,6 +53,7 @@ terraform_setup:
   script:
     - terraform validate
     - terraform plan 
+    - terraform apply -auto-approve
 
 
   only:
