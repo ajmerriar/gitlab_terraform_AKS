@@ -15,6 +15,7 @@ variable "location" {
 
 variable "dns_name_label" {
   description   = "The DNS label/name for the container groups IP"
+  default       = "gitlabansible"
 }
 
 
