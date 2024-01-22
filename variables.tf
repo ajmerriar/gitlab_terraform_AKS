@@ -4,7 +4,7 @@ variable "container_group_name" {
 }
 
 variable "resource_group_name" {
-  default       = "gitlab"
+  default       = "gitlabb"
   description   = "The name of the resource group"
 }
 
