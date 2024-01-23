@@ -1,10 +1,10 @@
 variable "container_group_name" {
-  default       = "myContGroup"
+  default       = "myACIs"
   description   = "The name of the container group"
 }
 
 variable "resource_group_name" {
-  default       = "gitlabb"
+  default       = "gitlabaci"
   description   = "The name of the resource group"
 }
 
@@ -15,7 +15,7 @@ variable "location" {
 
 variable "dns_name_label" {
   description   = "The DNS label/name for the container groups IP"
-  default       = "gitlabansible"
+  default       = "gitlabterra"
 }
 
 
