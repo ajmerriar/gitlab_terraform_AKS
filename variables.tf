@@ -1,3 +1,17 @@
+variable "image_registry_server" {
+  description = "The server address of the image registry"
+  default     = "gitlabansible.azurecr.io"
+}
+
+variable "image_registry_username" {
+  description = "The username for the image registry"
+  default     = "gitlabansible"
+}
+
+variable "image_registry_password" {
+  description = "The password for the image registry"
+  default     = "zjrACyWnM/JIvRN/tvafKpIVQsK00e+35LojMIo/sI+ACRDC+ScJ"
+}
 variable "resource_group_name" {
   default     = "aci"
   description = "The name of the resource group"
