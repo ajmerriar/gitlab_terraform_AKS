@@ -1,16 +1,13 @@
 variable "image_registry_server" {
   description = "The server address of the image registry"
-  default     = "gitlabansible.azurecr.io"
 }
 
 variable "image_registry_username" {
   description = "The username for the image registry"
-  default     = "gitlabansible"
 }
 
 variable "image_registry_password" {
   description = "The password for the image registry"
-  default     = "zjrACyWnM/JIvRN/tvafKpIVQsK00e+35LojMIo/sI+ACRDC+ScJ"
 }
 variable "resource_group_name" {
   default     = "aci"
@@ -39,7 +36,6 @@ variable "container_name" {
 
 variable "image_name" {
   description = "The container image name"
-  default     = "gitlabansible.azurecr.io/weather_application:latest"
 }
 
 variable "cpu_core_number" {
