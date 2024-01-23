@@ -30,7 +30,7 @@ resource "azurerm_container_group" "containergroup" {
     }
   }
   image_registry_credential {
-    server = "$REGISTRY_NAME.azurecr.io" 
+    server = "gitlabansible.azurecr.io" 
     username = "$ACR_USERNAME"    
     password = "$ACR_PASSWORD"
     }
