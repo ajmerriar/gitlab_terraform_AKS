@@ -1,38 +1,58 @@
 terraform {
+  required_version = ">=1.0"
+
+  required_providers {
+    azapi = {
+      source  = "azure/azapi"
+      version = "~>1.5"
+    }
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~>3.0"
+    }
+    time = {
+      source  = "hashicorp/time"
+      version = "0.9.1"
+    }
+  }
 }
 
 provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group" "aci_rg" {
-  name     = var.resource_group_name
-  location = var.location
+resource "azurerm_resource_group" "rg" {
+  location = var.resource_group_location
+  name     = "aa"
 }
 
-resource "azurerm_container_group" "containergroup" {
-  name                = var.container_group_name
-  resource_group_name = azurerm_resource_group.aci_rg.name
-  location            = azurerm_resource_group.aci_rg.location
-  ip_address_type     = "Public"
-  dns_name_label      = var.dns_name_label
-  os_type             = "Linux"
+resource "azurerm_kubernetes_cluster" "k8s" {
+  location            = azurerm_resource_group.rg.location
+  name                = "practice"
+  resource_group_name = azurerm_resource_group.rg.name
 
-  container {
-    name  = var.container_name
-    image = var.image_name
-    cpu   = var.cpu_core_number
-    memory = var.memory_size
+  dns_prefix = "first-practice-aks"
 
-    ports {
-      protocol = "TCP"
-      port     = var.port_number
+  identity {
+    type = "SystemAssigned"
+  }
+
+  default_node_pool {
+    name       = "agentpool"
+    vm_size    = "Standard_D4ds_v5"
+    node_count = var.node_count
+  }
+
+  linux_profile {
+    admin_username = var.username
+
+    ssh_key {
+      key_data = jsondecode(azapi_resource_action.ssh_public_key_gen.output).publicKey
     }
   }
-  image_registry_credential {
-    server = var.image_registry_server
-    username = var.image_registry_username
-    password = var.image_registry_password
-    }
-}
 
+  network_profile {
+    network_plugin    = "kubenet"
+    load_balancer_sku = "standard"
+  }
+}
