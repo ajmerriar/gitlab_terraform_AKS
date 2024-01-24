@@ -29,14 +29,15 @@ terraform_setup:
     - apk add --no-cache --update python3 py3-pip
     - apk add --no-cache --update --virtual=build gcc musl-dev python3-dev libffi-dev openssl-dev cargo make && pip3 install --no-cache-dir --prefer-binary azure-cli && apk del build
     - az login --service-principal --username "$AZURE_CLIENT_ID" --password "$AZURE_CLIENT_SECRET" --tenant "$AZURE_TENANT_ID"
-    - terraform --version
-    - terraform init
-    - terraform validate
-    - terraform plan 
+    # - terraform --version
+    # - terraform init
+    # - terraform validate
+    # - terraform plan 
+    - apk add kubectl
 
   script:
-    - terraform apply -auto-approve
-    - az aks get-credentials --resource-group aa --name weather
+    # - terraform apply -auto-approve
+    # - az aks get-credentials --resource-group aa --name weather
     - kubectl get nodes
     - terraform destroy -auto-approve
 
