@@ -31,11 +31,13 @@ terraform_setup:
     - az login --service-principal --username "$AZURE_CLIENT_ID" --password "$AZURE_CLIENT_SECRET" --tenant "$AZURE_TENANT_ID"
     - terraform --version
     - terraform init
-
-  script:
     - terraform validate
     - terraform plan 
+
+  script:
     - terraform apply -auto-approve
+    - az aks get-credentials --resource-group aa --name weather
+    - kubectl get nodes
     - terraform destroy -auto-approve
 
 
