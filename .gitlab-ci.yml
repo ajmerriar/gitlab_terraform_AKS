@@ -62,7 +62,7 @@ deploy:
     - az login --service-principal --username "$AZURE_CLIENT_ID" --password "$AZURE_CLIENT_SECRET" --tenant "$AZURE_TENANT_ID"
     - az aks get-credentials --resource-group aa --name weather
     - kubectl get nodes
-    - kubectl create secret docker-registry mycredentials --docker-server=gitlabansible.azurecr.io --docker-username=gitlabansible --docker-password=zjrACyWnM/JIvRN/tvafKpIVQsK00e+35LojMIo/sI+ACRDC+ScJ
+    # - kubectl create secret docker-registry mycredentials --docker-server=gitlabansible.azurecr.io --docker-username=gitlabansible --docker-password=zjrACyWnM/JIvRN/tvafKpIVQsK00e+35LojMIo/sI+ACRDC+ScJ
     - kubectl apply -f kube.yml
     - kubectl get pods -o wide
     - kubectl get service
