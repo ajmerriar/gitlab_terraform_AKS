@@ -1,1 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: monolithic-app
+spec:
+  replicas: 2  # Adjust based on your scaling requirements
+  selector:
+    matchLabels:
+      app: monolithic-app
+  template:
+    metadata:
+      labels:
+        app: monolithic-app
+    spec:
+      containers:
+        - name: monolithic-container
+          image: your-acr-username.azurecr.io/your-monolithic-app:latest
+          ports:
+            - containerPort: 3000  # Adjust based on your application's port
+      imagePullSecrets:
+        - name: acr-credentialss  # Reference to the secret
 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: monolithic-service
+spec:
+  selector:
+    app: monolithic-app
+  ports:
+    - protocol: TCP
+      port: 80  # Adjust based on the service port you want to expose
+      targetPort: 3000  # Should match the containerPort in Deployment
+  type: LoadBalancer 
