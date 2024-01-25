@@ -38,8 +38,7 @@ terraform_setup:
 
   script:
     - terraform apply -auto-approve
-    - az aks get-credentials --resource-group aa --name weather
-    - terraform destroy -auto-approve
+#    - terraform destroy -auto-approve
 
 
 deploy:
