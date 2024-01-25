@@ -70,7 +70,7 @@ deploy:
     - apt-get update
     - apt-get install -y gnupg
     - apt-get upgrade -y
-    - curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+    - curl -fsSL https://aka.ms/InstallAzureCLIDeb | bash
     - apt-get install azure-cli -y
     - az --version
   script:
